@@ -8,7 +8,9 @@ import { markMessageRead, deleteMessage } from './actions';
 import { ConfirmDialog } from '@/components/admin/confirm-dialog';
 import { EmptyState } from '@/components/public/empty-state';
 
-import type { ContactMessage } from '@/types/database';
+import type { Database } from '@/types/supabase';
+
+type ContactMessage = Database['public']['Tables']['contact_messages']['Row'];
 
 export function MessagesList({
   messages,

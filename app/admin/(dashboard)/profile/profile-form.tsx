@@ -5,7 +5,9 @@ import { toast } from 'sonner';
 import { updateProfile, type ProfileActionState } from './actions';
 import { ImageUploader } from '@/components/admin/image-uploader';
 import { STORAGE_BUCKETS, uploadFile } from '@/lib/supabase/storage';
-import type { Profile } from '@/types/supabase';
+import type { Database } from '@/types/supabase';
+
+type Profile = Database['public']['Tables']['profiles']['Row'];
 
 const initialState: ProfileActionState = {};
 

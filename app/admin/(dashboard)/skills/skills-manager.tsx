@@ -7,7 +7,10 @@ import { upsertSkill, deleteSkill, upsertSkillCategory, deleteSkillCategory } fr
 import { ConfirmDialog } from '@/components/admin/confirm-dialog';
 import { EmptyState } from '@/components/public/empty-state';
 import { slugify } from '@/lib/utils';
-import type { Skill, SkillCategory } from '@/types/supabase';
+import type { Database } from '@/types/supabase';
+
+type Skill = Database['public']['Tables']['skills']['Row'];
+type SkillCategory = Database['public']['Tables']['skill_categories']['Row'];
 
 function CategoryModal({ category, onClose }: { category?: SkillCategory; onClose: () => void }) {
   const [name, setName] = useState(category?.name ?? '');
@@ -20,7 +23,10 @@ function CategoryModal({ category, onClose }: { category?: SkillCategory; onClos
     if (category) formData.set('id', category.id);
     const result = await upsertSkillCategory(formData);
     setPending(false);
-    if (result?.error) return toast.error(result.error);
+    if (result?.error) {
+      toast.error(result.error);
+      return;
+    }
     toast.success('Skill category saved');
     onClose();
   }
@@ -62,7 +68,10 @@ function SkillModal({ skill, categories, onClose }: { skill?: Skill; categories:
     if (skill) formData.set('id', skill.id);
     const result = await upsertSkill(formData);
     setPending(false);
-    if (result?.error) return toast.error(result.error);
+    if (result?.error) {
+      toast.error(result.error);
+      return;
+    }
     toast.success('Skill saved');
     onClose();
   }

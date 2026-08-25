@@ -12,7 +12,7 @@ export default async function AdminEducationPage() {
       <h1 className="font-display text-2xl font-bold text-white">Education</h1>
       <p className="mt-1 text-slate-400">Manage your education history.</p>
       <div className="mt-8">
-        <EducationManager entries={entries ?? []} />
+        <EducationManager education={entries ?? []} />
       </div>
     </div>
   );

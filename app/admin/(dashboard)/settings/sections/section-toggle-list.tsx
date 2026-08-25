@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { toggleSection } from './actions';
-import type { SectionSetting } from '@/types/supabase';
+import type { Database } from '@/types/supabase';
+
+type SectionSetting = Database['public']['Tables']['section_settings']['Row'];
 
 export function SectionToggleList({ sections }: { sections: SectionSetting[] }) {
   const [items, setItems] = useState(sections);

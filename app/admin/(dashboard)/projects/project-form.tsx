@@ -7,7 +7,12 @@ import { createProject, updateProject, type ProjectActionState } from './actions
 import { ImageUploader } from '@/components/admin/image-uploader';
 import { STORAGE_BUCKETS } from '@/lib/supabase/storage';
 import { slugify } from '@/lib/utils';
-import type { Project, ProjectCategory } from '@/types/supabase';
+import type { Database } from '@/types/supabase';
+
+type Project = Database['public']['Tables']['projects']['Row'] & {
+  technologies?: Array<{ name: string }>;
+};
+type ProjectCategory = Database['public']['Tables']['project_categories']['Row'];
 
 const initialState: ProjectActionState = {};
 

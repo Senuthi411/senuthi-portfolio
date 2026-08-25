@@ -7,7 +7,10 @@ import { Upload, Trash2, ArrowUp, ArrowDown, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { uploadFile, deleteFile, pathFromPublicUrl, STORAGE_BUCKETS } from '@/lib/supabase/storage';
 import { ConfirmDialog } from '@/components/admin/confirm-dialog';
-import type { ProjectImage } from '@/types/supabase';
+import { insertProjectImage, updateProjectImageOrder } from '../../actions';
+import type { Database, TablesInsert } from '@/types/supabase';
+
+type ProjectImage = Database['public']['Tables']['project_images']['Row'];
 
 export function GalleryManager({ projectId, images }: { projectId: string; images: ProjectImage[] }) {
   const [items, setItems] = useState(images);
@@ -18,19 +21,19 @@ export function GalleryManager({ projectId, images }: { projectId: string; image
     const files = Array.from(e.target.files ?? []);
     if (files.length === 0) return;
     setUploading(true);
-    const supabase = createClient();
 
     try {
       for (const file of files) {
         const { publicUrl } = await uploadFile(STORAGE_BUCKETS.projectGallery, file, { folder: projectId, kind: 'image' });
         const nextOrder = items.length > 0 ? Math.max(...items.map((i) => i.display_order)) + 1 : 0;
-        const { data, error } = await supabase
-          .from('project_images')
-          .insert({ project_id: projectId, image_url: publicUrl, display_order: nextOrder })
-          .select('*')
-          .single();
-        if (error) throw error;
-        setItems((prev) => [...prev, data]);
+        const image: TablesInsert<'project_images'> = {
+          project_id: projectId,
+          image_url: publicUrl,
+          display_order: nextOrder,
+        };
+        const result = await insertProjectImage(image);
+        if (!result.success || !result.image) throw new Error(result.error ?? 'Failed to save image.');
+        setItems((prev) => [...prev, result.image as ProjectImage]);
       }
       toast.success('Images uploaded');
     } catch (err) {
@@ -59,9 +62,8 @@ export function GalleryManager({ projectId, images }: { projectId: string; image
     setItems(reordered);
 
     startTransition(async () => {
-      const supabase = createClient();
       await Promise.all(
-        reordered.map((img, i) => supabase.from('project_images').update({ display_order: i }).eq('id', img.id))
+        reordered.map((img, order) => updateProjectImageOrder(img.id, order))
       );
     });
   }

@@ -1,4 +1,6 @@
-import type { Education } from '@/types/database';
+import type { Database } from '@/types/supabase';
+
+type Education = Database['public']['Tables']['education']['Row'];
 import Link from 'next/link';
 import Image from 'next/image';
 import { getProfile, getSectionSettings, isSectionEnabled, getFeaturedProject, getVisibleEducation } from '@/lib/data/public';

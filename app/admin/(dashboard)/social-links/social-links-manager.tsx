@@ -12,7 +12,7 @@ import {
 import { ConfirmDialog } from '@/components/admin/confirm-dialog';
 import { EmptyState } from '@/components/public/empty-state';
 
-import type { Database } from '@/types/database';
+import type { Database } from '@/types/supabase';
 
 type SocialLink =
   Database['public']['Tables']['social_links']['Row'];

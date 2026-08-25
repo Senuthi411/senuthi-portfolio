@@ -4,7 +4,9 @@ import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { certificationSchema } from '@/lib/validation/misc';
 
-export async function upsertCertification(formData: FormData) {
+export async function upsertCertification(
+  formData: FormData
+): Promise<{ success: boolean; error?: string }> {
   const id = formData.get('id')?.toString();
   const raw = {
     title: formData.get('title')?.toString() ?? '',
@@ -18,7 +20,12 @@ export async function upsertCertification(formData: FormData) {
     display_order: Number(formData.get('display_order') ?? 0),
   };
   const parsed = certificationSchema.safeParse(raw);
-  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Invalid data' };
+  if (!parsed.success) {
+    return {
+      success: false,
+      error: parsed.error.issues[0]?.message ?? 'Invalid data',
+    };
+  }
 
   const supabase = await createClient();
   const payload = {
@@ -34,15 +41,27 @@ export async function upsertCertification(formData: FormData) {
     ? await supabase.from('certifications').update(payload).eq('id', id)
     : await supabase.from('certifications').insert(payload);
 
-  if (error) return { error: 'Failed to save certification.' };
+  if (error) return { success: false, error: 'Failed to save certification.' };
   revalidatePath('/admin/certifications');
   revalidatePath('/education');
   return { success: true };
 }
 
-export async function deleteCertification(id: string) {
+export async function deleteCertification(
+  id: string
+): Promise<{ success: boolean; error?: string }> {
+  if (!id) {
+    return { success: false, error: 'Certification ID is required.' };
+  }
+
   const supabase = await createClient();
-  await supabase.from('certifications').delete().eq('id', id);
+  const { error } = await supabase.from('certifications').delete().eq('id', id);
+
+  if (error) {
+    return { success: false, error: 'Failed to delete certification.' };
+  }
+
   revalidatePath('/admin/certifications');
   revalidatePath('/education');
+  return { success: true };
 }

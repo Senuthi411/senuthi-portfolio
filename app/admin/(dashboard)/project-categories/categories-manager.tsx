@@ -8,7 +8,9 @@ import { ConfirmDialog } from '@/components/admin/confirm-dialog';
 import { DataTable } from '@/components/admin/data-table';
 import { EmptyState } from '@/components/public/empty-state';
 import { slugify } from '@/lib/utils';
-import type { ProjectCategory } from '@/types/supabase';
+import type { Database } from '@/types/supabase';
+
+type ProjectCategory = Database['public']['Tables']['project_categories']['Row'];
 
 function CategoryFormModal({
   category, onClose,

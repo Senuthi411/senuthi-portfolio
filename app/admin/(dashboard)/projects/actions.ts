@@ -6,9 +6,10 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/server';
 import { projectSchema } from '@/lib/validation/project';
 import { slugify } from '@/lib/utils';
-import type { Database } from '@/types/supabase';
+import type { Database, TablesInsert, TablesUpdate } from '@/types/supabase';
 
 type DbClient = SupabaseClient<Database>;
+type ProjectImage = Database['public']['Tables']['project_images']['Row'];
 
 export interface ProjectActionState {
   success?: boolean;
@@ -16,7 +17,13 @@ export interface ProjectActionState {
   fieldErrors?: Record<string, string>;
 }
 
-function parseProjectForm(formData: FormData) {
+type ParsedProjectForm = Record<string, FormDataEntryValue | boolean> & {
+  is_team: boolean;
+  is_featured: boolean;
+  is_published: boolean;
+};
+
+function parseProjectForm(formData: FormData): ParsedProjectForm {
   const raw = Object.fromEntries(formData.entries());
   return {
     ...raw,
@@ -140,6 +147,39 @@ export async function togglePublish(id: string, nextValue: boolean) {
   revalidatePath('/projects');
 }
 
+export async function insertProjectImage(
+  image: TablesInsert<'project_images'>
+): Promise<{ success: boolean; image?: ProjectImage; error?: string }> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('project_images')
+    .insert(image)
+    .select('*')
+    .single();
+
+  if (error || !data) {
+    return { success: false, error: error?.message ?? 'Failed to save image.' };
+  }
+
+  return { success: true, image: data as ProjectImage };
+}
+
+export async function updateProjectImageOrder(
+  id: string,
+  displayOrder: number
+): Promise<{ success: boolean; error?: string }> {
+  const payload: TablesUpdate<'project_images'> = { display_order: displayOrder };
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from('project_images')
+    .update(payload)
+    .eq('id', id);
+
+  return error
+    ? { success: false, error: error.message }
+    : { success: true };
+}
+
 async function linkTechnologies(supabase: DbClient, projectId: string, names: string[]) {
   for (const name of names) {
     let { data: tech } = await supabase.from('technologies').select('id').ilike('name', name).maybeSingle();
@@ -153,8 +193,8 @@ async function linkTechnologies(supabase: DbClient, projectId: string, names: st
   }
 }
 
-function nullifyEmpty<T extends Record<string, any>>(obj: T): T {
-  const out: Record<string, any> = {};
+function nullifyEmpty<T extends Record<string, unknown>>(obj: T): T {
+  const out: Record<string, unknown> = {};
   for (const [key, val] of Object.entries(obj)) {
     out[key] = val === '' ? null : val;
   }

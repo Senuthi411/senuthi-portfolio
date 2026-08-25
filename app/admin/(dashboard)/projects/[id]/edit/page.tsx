@@ -2,8 +2,12 @@ import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { ProjectForm } from '../../project-form';
 import { GalleryManager } from './gallery-manager';
+import type { Database } from '@/types/supabase';
 
 export const dynamic = 'force-dynamic';
+
+type Technology = Database['public']['Tables']['technologies']['Row'];
+type ProjectTechnologyJoin = { technology: Technology | null };
 
 export default async function EditProjectPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -20,7 +24,9 @@ export default async function EditProjectPage({ params }: { params: Promise<{ id
 
   const projectWithTech = {
     ...project,
-    technologies: (technologies ?? []).map((t: any) => t.technology).filter(Boolean),
+    technologies: (technologies as ProjectTechnologyJoin[] | null ?? [])
+      .map((entry) => entry.technology)
+      .filter((technology): technology is Technology => technology !== null),
   };
 
   return (

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { toggleSection } from './actions';
-import type { SectionSetting } from '@/types/database';
+import type { SectionSetting } from '@/types/supabase';
 
 export function SectionToggleList({ sections }: { sections: SectionSetting[] }) {
   const [items, setItems] = useState(sections);

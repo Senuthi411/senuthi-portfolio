@@ -7,7 +7,7 @@ import { Upload, Trash2, ArrowUp, ArrowDown, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { uploadFile, deleteFile, pathFromPublicUrl, STORAGE_BUCKETS } from '@/lib/supabase/storage';
 import { ConfirmDialog } from '@/components/admin/confirm-dialog';
-import type { ProjectImage } from '@/types/database';
+import type { ProjectImage } from '@/types/supabase';
 
 export function GalleryManager({ projectId, images }: { projectId: string; images: ProjectImage[] }) {
   const [items, setItems] = useState(images);

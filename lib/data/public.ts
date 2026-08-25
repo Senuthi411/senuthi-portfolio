@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import type { Profile, Project, Skill, SkillCategory, Education, Certification, SocialLink, SectionSetting, ProjectCategory } from '@/types/database';
+import type { Profile, Project, Skill, SkillCategory, Education, Certification, SocialLink, SectionSetting, ProjectCategory } from '@/types/supabase';
 
 /**
  * Public-facing data fetchers. All queries rely on RLS to scope results

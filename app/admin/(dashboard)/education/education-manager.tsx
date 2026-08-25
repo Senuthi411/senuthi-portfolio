@@ -6,7 +6,7 @@ import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { upsertEducation, deleteEducation } from './actions';
 import { ConfirmDialog } from '@/components/admin/confirm-dialog';
 import { EmptyState } from '@/components/public/empty-state';
-import type { Education } from '@/types/database';
+import type { Education } from '@/types/supabase';
 
 function EducationModal({ entry, onClose }: { entry?: Education; onClose: () => void }) {
   const [currentlyStudying, setCurrentlyStudying] = useState(entry?.currently_studying ?? false);

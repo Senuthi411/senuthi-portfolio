@@ -7,7 +7,7 @@ import { upsertSkill, deleteSkill, upsertSkillCategory, deleteSkillCategory } fr
 import { ConfirmDialog } from '@/components/admin/confirm-dialog';
 import { EmptyState } from '@/components/public/empty-state';
 import { slugify } from '@/lib/utils';
-import type { Skill, SkillCategory } from '@/types/database';
+import type { Skill, SkillCategory } from '@/types/supabase';
 
 function CategoryModal({ category, onClose }: { category?: SkillCategory; onClose: () => void }) {
   const [name, setName] = useState(category?.name ?? '');

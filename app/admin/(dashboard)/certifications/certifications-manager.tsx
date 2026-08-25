@@ -8,7 +8,7 @@ import { ConfirmDialog } from '@/components/admin/confirm-dialog';
 import { ImageUploader } from '@/components/admin/image-uploader';
 import { EmptyState } from '@/components/public/empty-state';
 import { STORAGE_BUCKETS } from '@/lib/supabase/storage';
-import type { Certification } from '@/types/database';
+import type { Certification } from '@/types/supabase';
 
 function CertModal({ cert, onClose }: { cert?: Certification; onClose: () => void }) {
   const [pending, setPending] = useState(false);

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import type { Project } from '@/types/database';
+import type { Project } from '@/types/supabase';
 import { STATUS_LABELS } from '@/lib/utils';
 
 export function ProjectCard({ project }: { project: Project }) {

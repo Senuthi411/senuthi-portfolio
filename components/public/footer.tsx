@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import type { SocialLink } from '@/types/database';
+import type { SocialLink } from '@/types/supabase';
 import { Github, Linkedin, Youtube, Globe, ExternalLink } from 'lucide-react';
 
 const ICONS: Record<string, any> = {

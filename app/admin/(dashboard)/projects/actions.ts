@@ -6,7 +6,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/server';
 import { projectSchema } from '@/lib/validation/project';
 import { slugify } from '@/lib/utils';
-import type { Database } from '@/types/database';
+import type { Database } from '@/types/supabase';
 
 type DbClient = SupabaseClient<Database>;
 

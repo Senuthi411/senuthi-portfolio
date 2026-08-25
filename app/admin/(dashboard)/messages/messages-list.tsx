@@ -6,7 +6,7 @@ import { Trash2, Mail, MailOpen } from 'lucide-react';
 import { markMessageRead, deleteMessage } from './actions';
 import { ConfirmDialog } from '@/components/admin/confirm-dialog';
 import { EmptyState } from '@/components/public/empty-state';
-import type { ContactMessage } from '@/types/database';
+import type { ContactMessage } from '@/types/supabase';
 
 export function MessagesList({ messages }: { messages: ContactMessage[] }) {
   const [items, setItems] = useState(messages);

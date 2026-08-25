@@ -6,7 +6,7 @@ import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { upsertSocialLink, deleteSocialLink } from './actions';
 import { ConfirmDialog } from '@/components/admin/confirm-dialog';
 import { EmptyState } from '@/components/public/empty-state';
-import type { SocialLink } from '@/types/database';
+import type { SocialLink } from '@/types/supabase';
 
 const PLATFORMS = ['GitHub', 'LinkedIn', 'Medium', 'YouTube', 'Website', 'Other'];
 

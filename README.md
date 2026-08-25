@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Senuthi Yuhansa — Portfolio + CMS
 
 A personal portfolio for **Senuthi Yuhansa**, Information Technology Undergraduate, with a private
@@ -188,3 +189,6 @@ None of this requires editing source code or redeploying.
   "authenticated" is an account you create yourself in the Supabase dashboard — so in practice this is
   single-owner, as specified. Just don't create a second Supabase Auth user unless you want them to
   have full admin access too.
+=======
+# senuthi-portfolio
+>>>>>>> 129e661df6896d92c594d1b46f70e0b647d0b3a8

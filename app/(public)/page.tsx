@@ -1,3 +1,4 @@
+import type { Education } from '@/types/database';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getProfile, getSectionSettings, isSectionEnabled, getFeaturedProject, getVisibleEducation } from '@/lib/data/public';
@@ -17,7 +18,10 @@ export default async function HomePage() {
   const projectsEnabled = isSectionEnabled(sections, 'projects');
 
   const firstName = profile?.full_name?.split(' ')[0] ?? 'there';
-  const currentEducation = education.find((e) => e.currently_studying) ?? education[0];
+  education.find((e: Education) => e.currently_studying)
+
+  const currentEducation =
+  education.find((e: Education) => e.currently_studying) ?? education[0];
 
   return (
     <>

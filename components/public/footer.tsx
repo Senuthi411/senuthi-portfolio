@@ -1,8 +1,18 @@
 import Link from 'next/link';
-import type { SocialLink } from '@/types/supabase';
-import { Github, Linkedin, Youtube, Globe, ExternalLink } from 'lucide-react';
+import type { Database } from '@/types/supabase';
+import type { LucideIcon } from 'lucide-react';
+import {
+  Github,
+  Linkedin,
+  Youtube,
+  Globe,
+  ExternalLink,
+} from 'lucide-react';
 
-const ICONS: Record<string, any> = {
+type SocialLink =
+  Database['public']['Tables']['social_links']['Row'];
+
+const ICONS: Record<string, LucideIcon> = {
   github: Github,
   linkedin: Linkedin,
   youtube: Youtube,
@@ -10,22 +20,41 @@ const ICONS: Record<string, any> = {
   website: Globe,
 };
 
-export function Footer({ fullName, socialLinks }: { fullName: string; socialLinks: SocialLink[] }) {
+export function Footer({
+  fullName,
+  socialLinks,
+}: {
+  fullName: string;
+  socialLinks: SocialLink[];
+}) {
   const year = new Date().getFullYear();
 
   return (
     <footer className="border-t border-white/5 bg-base-950">
       <div className="container-page flex flex-col items-center gap-4 py-10 sm:flex-row sm:justify-between">
         <div className="flex items-center gap-6 text-sm text-slate-400">
-          <Link href="/" className="hover:text-white">Home</Link>
-          <Link href="/about" className="hover:text-white">About</Link>
-          <Link href="/projects" className="hover:text-white">Projects</Link>
-          <Link href="/contact" className="hover:text-white">Contact</Link>
+          <Link href="/" className="hover:text-white">
+            Home
+          </Link>
+
+          <Link href="/about" className="hover:text-white">
+            About
+          </Link>
+
+          <Link href="/projects" className="hover:text-white">
+            Projects
+          </Link>
+
+          <Link href="/contact" className="hover:text-white">
+            Contact
+          </Link>
         </div>
 
         <div className="flex items-center gap-4">
-          {socialLinks.map((link) => {
-            const Icon = ICONS[link.platform.toLowerCase()] ?? ExternalLink;
+          {socialLinks.map((link: SocialLink) => {
+            const Icon =
+              ICONS[link.platform.toLowerCase()] ?? ExternalLink;
+
             return (
               <a
                 key={link.id}

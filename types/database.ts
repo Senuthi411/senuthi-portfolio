@@ -159,23 +159,162 @@ export interface ContactMessage {
   created_at: string;
 }
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
-      profiles: { Row: Profile; Insert: Partial<Profile>; Update: Partial<Profile> };
-      project_categories: { Row: ProjectCategory; Insert: Partial<ProjectCategory>; Update: Partial<ProjectCategory> };
-      technologies: { Row: Technology; Insert: Partial<Technology>; Update: Partial<Technology> };
-      projects: { Row: Project; Insert: Partial<Project>; Update: Partial<Project> };
-      project_technologies: { Row: { project_id: string; technology_id: string }; Insert: { project_id: string; technology_id: string }; Update: never };
-      project_images: { Row: ProjectImage; Insert: Partial<ProjectImage>; Update: Partial<ProjectImage> };
-      skill_categories: { Row: SkillCategory; Insert: Partial<SkillCategory>; Update: Partial<SkillCategory> };
-      skills: { Row: Skill; Insert: Partial<Skill>; Update: Partial<Skill> };
-      education: { Row: Education; Insert: Partial<Education>; Update: Partial<Education> };
-      certifications: { Row: Certification; Insert: Partial<Certification>; Update: Partial<Certification> };
-      social_links: { Row: SocialLink; Insert: Partial<SocialLink>; Update: Partial<SocialLink> };
-      section_settings: { Row: SectionSetting; Insert: Partial<SectionSetting>; Update: Partial<SectionSetting> };
-      contact_messages: { Row: ContactMessage; Insert: Partial<ContactMessage>; Update: Partial<ContactMessage> };
-      site_settings: { Row: { key: string; value: unknown }; Insert: { key: string; value: unknown }; Update: { key: string; value: unknown } };
+      profiles: {
+        Row: Profile;
+        Insert: Partial<Profile>;
+        Update: Partial<Profile>;
+        Relationships: [];
+      };
+
+      project_categories: {
+        Row: ProjectCategory;
+        Insert: Partial<ProjectCategory>;
+        Update: Partial<ProjectCategory>;
+        Relationships: [];
+      };
+
+      technologies: {
+        Row: Technology;
+        Insert: Partial<Technology>;
+        Update: Partial<Technology>;
+        Relationships: [];
+      };
+
+      projects: {
+        Row: Project;
+        Insert: Partial<Project>;
+        Update: Partial<Project>;
+        Relationships: [];
+      };
+
+      project_technologies: {
+        Row: {
+          project_id: string;
+          technology_id: string;
+        };
+        Insert: {
+          project_id: string;
+          technology_id: string;
+        };
+        Update: {
+          project_id?: string;
+          technology_id?: string;
+        };
+        Relationships: [];
+      };
+
+      project_images: {
+        Row: ProjectImage;
+        Insert: Partial<ProjectImage>;
+        Update: Partial<ProjectImage>;
+        Relationships: [];
+      };
+
+      skill_categories: {
+        Row: SkillCategory;
+        Insert: Partial<SkillCategory>;
+        Update: Partial<SkillCategory>;
+        Relationships: [];
+      };
+
+      skills: {
+        Row: Skill;
+        Insert: Partial<Skill>;
+        Update: Partial<Skill>;
+        Relationships: [];
+      };
+
+      education: {
+        Row: Education;
+        Insert: Partial<Education>;
+        Update: Partial<Education>;
+        Relationships: [];
+      };
+
+      certifications: {
+        Row: Certification;
+        Insert: Partial<Certification>;
+        Update: Partial<Certification>;
+        Relationships: [];
+      };
+
+      social_links: {
+        Row: SocialLink;
+        Insert: Partial<SocialLink>;
+        Update: Partial<SocialLink>;
+        Relationships: [];
+      };
+
+      section_settings: {
+        Row: SectionSetting;
+        Insert: Partial<SectionSetting>;
+        Update: Partial<SectionSetting>;
+        Relationships: [];
+      };
+
+      contact_messages: {
+        Row: ContactMessage;
+
+        Insert: {
+          id?: string;
+          name: string;
+          email: string;
+          subject?: string | null;
+          message: string;
+          read?: boolean;
+          created_at?: string;
+        };
+
+        Update: {
+          id?: string;
+          name?: string;
+          email?: string;
+          subject?: string | null;
+          message?: string;
+          read?: boolean;
+          created_at?: string;
+        };
+
+        Relationships: [];
+      };
+
+      site_settings: {
+        Row: {
+          key: string;
+          value: unknown;
+        };
+
+        Insert: {
+          key: string;
+          value: unknown;
+        };
+
+        Update: {
+          key?: string;
+          value?: unknown;
+        };
+
+        Relationships: [];
+      };
+    };
+
+    Views: {
+      [_ in never]: never;
+    };
+
+    Functions: {
+      [_ in never]: never;
+    };
+
+    Enums: {
+      [_ in never]: never;
+    };
+
+    CompositeTypes: {
+      [_ in never]: never;
     };
   };
-}
+};

@@ -1,3 +1,4 @@
+import type { Database } from '@/types/supabase';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -7,6 +8,10 @@ import { STATUS_LABELS, formatDate } from '@/lib/utils';
 import { Github, FileText, ExternalLink, PlayCircle } from 'lucide-react';
 
 export const revalidate = 0;
+
+type Technology = Database['public']['Tables']['technologies']['Row'];
+
+type ProjectImage =Database['public']['Tables']['project_images']['Row'];
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -102,12 +107,13 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         )}
 
         {project.technologies && project.technologies.length > 0 && (
-          <div className="mt-6 flex flex-wrap gap-2">
-            {project.technologies.map((t) => (
-              <TechnologyBadge key={t.id} name={t.name} />
-            ))}
-          </div>
-        )}
+  <div className="mt-6 flex flex-wrap gap-2">
+    {project.technologies.map((t: Technology) => (
+      <TechnologyBadge key={t.id} name={t.name} />
+    ))}
+  </div>
+)}
+        
       </section>
 
       {sections.length > 0 && (
@@ -122,7 +128,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         <section className="container-page border-t border-white/5 py-16">
           <h2 className="font-display text-xl font-bold text-white">Gallery</h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {project.images.map((img) => (
+            {project.images.map((img: ProjectImage) => (
               <div key={img.id} className="relative aspect-square overflow-hidden rounded-xl border border-white/5 bg-base-800">
                 <Image src={img.image_url} alt={img.alt_text ?? project.title} fill className="object-cover" />
               </div>
